@@ -2,8 +2,20 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+// 引入ElementUI
+import ElementUI from 'element-ui'
+// 引入axios实例
+import http from 'network/http'
+// 引入初始化样式css
+import 'assets/css/normalize.css'
+import 'assets/css/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
+// 使用插件
+Vue.use(ElementUI)
+// 挂载模块到Vue原型上
+Vue.prototype.$http = http
 
 new Vue({
   router,
