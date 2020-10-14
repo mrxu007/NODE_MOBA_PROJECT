@@ -1,9 +1,5 @@
 # 开篇为王者荣耀前后端项目规划
 
-@[TOC](文章目录)
-
-</font>
-
 <hr style=" border:solid; width:100px; height:1px;" color=#000000 size=1">
 
 # 前言
