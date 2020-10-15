@@ -4,8 +4,15 @@ import VueRouter from 'vue-router'
 import Main from 'views/Main.vue'
 
 // 路由组件的懒加载
+// 分类
 const CategoryEdit = () => import('views/category/categoryEdit.vue')
 const CategoryList = () => import('views/category/categoryList.vue')
+// 装备
+const ItemEdit = () => import('views/item/ItemEdit.vue')
+const ItemList = () => import('views/item/ItemList.vue')
+// 英雄
+const heroEdit = () => import('views/hero/heroEdit.vue')
+const heroList = () => import('views/hero/heroList.vue')
 
 // 解决重复点击当前路由报错的问题,重写push、replace等等跳转方法
 const originalPush = VueRouter.prototype.push
@@ -48,6 +55,32 @@ const routes = [
       {
         path: '/categories/edit/:id',
         component: CategoryEdit,
+        props: true
+      },
+      {
+        path: '/items/create',
+        component: ItemEdit
+      },
+      {
+        path: '/items/list',
+        component: ItemList
+      },
+      {
+        path: '/items/edit/:id',
+        component: ItemEdit,
+        props: true
+      },
+      {
+        path: '/heros/create',
+        component: heroEdit
+      },
+      {
+        path: '/heros/list',
+        component: heroList
+      },
+      {
+        path: '/heros/edit/:id',
+        component: heroEdit,
         props: true
       }
     ]

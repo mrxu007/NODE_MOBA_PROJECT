@@ -14,9 +14,9 @@ export default {
     return {
       tableData: [],
       tableLabel: {
-        name: '分类名称',
+        name: '装备名称',
         _id: 'id',
-        parent: '上级分类'
+        iconURL: '装备预览'
       }
     }
   },
@@ -25,21 +25,14 @@ export default {
   },
   methods: {
     async fetch() {
-      const res = await this.$http.get('/crud/categories/list')
-      res.data.map(item => {
-        if (item.parent) {
-          item.parent = item.parent.name
-        }
-        // console.log(item)
-        return item
-      })
+      const res = await this.$http.get('/crud/items/list')
       // console.log(result)
       this.tableData = res.data
-      // console.log(res.data)
+      console.log(res.data)
     },
     handleEdit(row) {
       const { _id } = row
-      this.$router.push(`/categories/edit/${_id}`)
+      this.$router.push(`/items/edit/${_id}`)
     },
     handleDelete(row) {
       const { name, _id } = row
@@ -49,7 +42,7 @@ export default {
         type: 'warning'
       })
         .then(async () => {
-          await this.$http.delete(`/crud/categories/${_id}`)
+          await this.$http.delete(`/crud/items/${_id}`)
           this.$message({
             type: 'success',
             message: '删除成功!'

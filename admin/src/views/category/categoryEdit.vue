@@ -39,10 +39,10 @@ export default {
     // 创建 or 编辑 分类名称
     async save() {
       if (this.id) {
-        await this.$http.put(`/categories/${this.id}`, this.model)
+        await this.$http.put(`/crud/categories/${this.id}`, this.model)
       } else {
         await this.$http.post(
-          '/categories',
+          '/crud/categories',
           !this.model.parent ? { name: this.model.name } : this.model
         )
       }
@@ -50,16 +50,14 @@ export default {
     },
     // 查询单条数据
     async findById() {
-      const res = await this.$http.get(`/categories/${this.id}`)
+      const res = await this.$http.get(`/crud/categories/${this.id}`)
       this.model.parent = res.data.parent
       this.model.name = res.data.name
     },
     // 查询父级分类
     async fetchParents() {
-      const res = await this.$http.get('/categories/list')
+      const res = await this.$http.get('/crud/categories/list')
       this.parents = res.data
-
-      console.log(res.data)
     }
   }
 }

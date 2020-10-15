@@ -1,12 +1,12 @@
 <template>
   <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" default-active="2" router text-color="#fff">
     <!-- 没有子路由的菜单 -->
-    <el-menu-item :key="item.path" index="item.path" v-for="item in noChildren">
+    <el-menu-item :index="item.path" :key="item.path" v-for="item in noChildren">
       <i :class="'el-icon-'+item.icon"></i>
       <span slot="title">{{item.label}}</span>
     </el-menu-item>
     <!-- 有子路由的菜单 -->
-    <el-submenu :key="item.path" index="item.path" v-for="item in hasChildren">
+    <el-submenu :index="item.path" :key="item.path" v-for="item in hasChildren">
       <template slot="title">
         <i :class="'el-icon-'+item.icon"></i>
         <span>{{item.label}}</span>
@@ -25,13 +25,14 @@ export default {
       // 菜单路由模型
       asideMenu: [
         {
-          path: '/',
           label: '首页',
+          path: '/',
           icon: 'menu'
         },
         {
-          label: '分类',
+          label: '分类管理',
           icon: 'menu',
+          path: '/categories',
           children: [
             {
               path: '/categories/create',
@@ -44,14 +45,34 @@ export default {
           ]
         },
         {
-          path: '/address3',
-          label: '导航二',
-          icon: 'menu'
+          label: '装备管理',
+          icon: 'menu',
+          path: '/items',
+          children: [
+            {
+              path: '/items/create',
+              label: '新建装备'
+            },
+            {
+              path: '/items/list',
+              label: '装备列表'
+            }
+          ]
         },
         {
-          path: '/address4',
-          label: '导航三',
-          icon: 'menu'
+          label: '英雄管理',
+          icon: 'menu',
+          path: '/heros',
+          children: [
+            {
+              path: '/heros/create',
+              label: '新建英雄'
+            },
+            {
+              path: '/heros/list',
+              label: '英雄列表'
+            }
+          ]
         }
       ]
     }

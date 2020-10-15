@@ -1,7 +1,14 @@
 <template>
   <div>
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column :key="index" :label="item" :prop="index" v-for="(item, index) in tableLabel"></el-table-column>
+      <div :key="index" v-for="(item,index) in tableLabel">
+        <el-table-column :key="index" :label="item" :prop="index" v-if="!(index === 'iconURL')"></el-table-column>
+        <el-table-column :key="index" :label="item" :prop="index" v-if="index ==='iconURL'">
+          <template v-slot="{row}">
+            <img :src="row.iconURL" />
+          </template>
+        </el-table-column>
+      </div>
       <el-table-column label="操作" v-if="isShow">
         <template v-slot="{$index, row}">
           <el-button @click="handleEdit($index, row)" size="mini">编辑</el-button>
@@ -35,6 +42,7 @@ export default {
   data() {
     return {}
   },
+  computed: {},
   methods: {
     handleEdit(index, row) {
       // console.log(index, row)
