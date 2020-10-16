@@ -2,8 +2,8 @@
   <div>
     <h1>{{id ? '编辑' : '新建'}}分类</h1>
     <el-form :inline="false" label-width="80px" size="normal">
-      <el-form-item label="父级分类">
-        <el-select placeholder="请选择父级分类" v-model="model.parent">
+      <el-form-item label="上级分类">
+        <el-select placeholder="请选择上级分类" v-model="model.parent">
           <el-option :key="index" :label="item.name" :value="item._id" v-for="(item, index) in parents"></el-option>
         </el-select>
       </el-form-item>
@@ -51,13 +51,13 @@ export default {
     // 查询单条数据
     async findById() {
       const res = await this.$http.get(`/crud/categories/${this.id}`)
-      this.model.parent = res.data.parent
-      this.model.name = res.data.name
+      this.model.parent = res.data.data.parent
+      this.model.name = res.data.data.name
     },
     // 查询父级分类
     async fetchParents() {
       const res = await this.$http.get('/crud/categories/list')
-      this.parents = res.data
+      this.parents = res.data.data
     }
   }
 }

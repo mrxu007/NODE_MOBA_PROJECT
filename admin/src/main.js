@@ -6,6 +6,8 @@ import store from './store'
 import ElementUI from 'element-ui'
 // 引入axios实例
 import http from 'network/http'
+// 引入moment日期格式化实例
+import dayJs from 'dayjs'
 // 引入初始化样式css
 import 'assets/css/normalize.css'
 import 'assets/css/index.css'
@@ -16,6 +18,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 // 挂载模块到Vue原型上
 Vue.prototype.$http = http
+Vue.prototype.$dayjs = dayJs
 
 new Vue({
   router,

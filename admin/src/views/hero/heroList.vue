@@ -27,7 +27,7 @@ export default {
     async fetch() {
       const res = await this.$http.get('/crud/heros/list')
       // console.log(result)
-      this.tableData = res.data
+      this.tableData = res.data.data
       // console.log(res.data)
     },
     handleEdit(row) {

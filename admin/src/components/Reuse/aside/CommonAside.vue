@@ -30,6 +30,21 @@ export default {
           icon: 'menu'
         },
         {
+          label: '日志管理',
+          path: '/logs',
+          icon: 'menu',
+          children: [
+            {
+              path: '/logs/create',
+              label: '发布更新日志'
+            },
+            {
+              path: '/logs/list',
+              label: '日志列表'
+            }
+          ]
+        },
+        {
           label: '分类管理',
           icon: 'menu',
           path: '/categories',

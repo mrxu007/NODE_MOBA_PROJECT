@@ -26,15 +26,16 @@ export default {
   methods: {
     async fetch() {
       const res = await this.$http.get('/crud/categories/list')
-      res.data.map(item => {
+      // console.log(res)
+      res.data.data.map(item => {
         if (item.parent) {
           item.parent = item.parent.name
         }
         // console.log(item)
         return item
       })
-      // console.log(result)
-      this.tableData = res.data
+
+      this.tableData = res.data.data
       // console.log(res.data)
     },
     handleEdit(row) {

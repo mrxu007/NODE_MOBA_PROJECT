@@ -4,6 +4,11 @@ import VueRouter from 'vue-router'
 import Main from 'views/Main.vue'
 
 // 路由组件的懒加载
+// 首页
+import Home from 'views/home/Home.vue'
+// 更新公告
+const logEdit = () => import('views/logUpdate/logEdit.vue')
+const logList = () => import('views/logUpdate/logList.vue')
 // 分类
 const CategoryEdit = () => import('views/category/categoryEdit.vue')
 const CategoryList = () => import('views/category/categoryList.vue')
@@ -40,11 +45,34 @@ const routes = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   // }
+  // {
+  //   pathJ: '/',
+  //   name: 'home',
+  //   component: Home
+  // },
+
   {
     path: '/',
-    name: 'main',
     component: Main,
     children: [{
+        path: '/',
+        name: 'home',
+        component: Home
+      },
+      {
+        path: '/logs/create',
+        component: logEdit
+      },
+      {
+        path: '/logs/list',
+        component: logList
+      },
+      {
+        path: '/logs/edit/:id',
+        component: logEdit,
+        props: true
+      },
+      {
         path: '/categories/create',
         component: CategoryEdit
       },

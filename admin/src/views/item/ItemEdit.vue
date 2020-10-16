@@ -45,14 +45,15 @@ export default {
     async findById() {
       const res = await this.$http.get(`/crud/items/${this.id}`)
       // this.model.name = res.data.name
-      this.$set(this.model, 'name', res.data.name)
-      this.$set(this.model, 'iconURL', res.data.iconURL)
+      this.$set(this.model, 'name', res.data.data.name)
+      this.$set(this.model, 'iconURL', res.data.data.iconURL)
     },
     // 返回图片链接
     handleAvatarSuccess(res, file) {
       // this.imageUrl = URL.createObjectURL(file.raw)
-      this.$set(this.model, 'iconURL', res.url)
-      console.log(res)
+      // console.log(res)
+      this.$set(this.model, 'iconURL', res.data.url)
+      // console.log(res)
     }
   }
 }

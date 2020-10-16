@@ -12,8 +12,11 @@ module.exports = app => {
   //创建
   router.post('/', async (req, res) => {
     // console.log(req.body);
-    const model = await req.Model.create(req.body)
-    res.send(model);
+    await req.Model.create(req.body)
+    res.send({
+      "error_code": 0,
+      "success": '数据创建成功'
+    });
   })
   // 查询列表
   router.get('/list', async (req, res) => {
@@ -22,27 +25,36 @@ module.exports = app => {
       options.populate = 'parent'
     }
     const list = await req.Model.find({}).setOptions(options);
-    res.send(list);
+    res.send({
+      "error_code": 0,
+      "data": list
+    });
   })
   // 查询单条数据
   router.get('/:id', async (req, res) => {
     const model = await req.Model.findById(req.params.id);
-    res.send(model);
+    res.send({
+      "error_code": 0,
+      data: model
+    });
   })
   // 更新
   router.put('/:id', async (req, res) => {
     let id = req.params.id;
     let data = req.body;
     const model = await req.Model.findByIdAndUpdate(id, data);
-    res.send(model);
+    res.send({
+      "error_code": 0,
+      "success": '数据更新成功'
+    });
   })
   // 删除
   router.delete('/:id', async (req, res) => {
     let id = req.params.id;
     await req.Model.findByIdAndDelete(id);
     res.send({
-      status: 200,
-      info: '删除分类成功'
+      "error_code": 0,
+      "success": '数据删除成功'
     })
   })
 
@@ -65,6 +77,9 @@ module.exports = app => {
   app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
     const file = req.file;
     file.url = `http://localhost:3000/uploads/${file.filename}`
-    res.send(file);
+    res.send({
+      "error_code": 0,
+      data: file
+    });
   })
 }

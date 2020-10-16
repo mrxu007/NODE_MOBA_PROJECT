@@ -14,9 +14,9 @@ export default {
     return {
       tableData: [],
       tableLabel: {
-        name: '装备名称',
+        author: '发布者',
         _id: 'id',
-        iconURL: '装备预览'
+        date: '发布时间'
       }
     }
   },
@@ -25,24 +25,28 @@ export default {
   },
   methods: {
     async fetch() {
-      const res = await this.$http.get('/crud/items/list')
-      // console.log(result)
-      this.tableData = res.data.data
+      const res = await this.$http.get('/crud/logs/list')
+      // console.log(res.data.data)np
+      const arr = res.data.data.map(item => {
+        item.date = this.$dayjs(item.date).format('YYYY/MM/DD')
+        return item
+      })
+      this.tableData = arr
       // console.log(res.data.data)
     },
     handleEdit(row) {
       const { _id } = row
-      this.$router.push(`/items/edit/${_id}`)
+      this.$router.push(`/logs/edit/${_id}`)
     },
     handleDelete(row) {
-      const { name, _id } = row
-      this.$confirm(`是否删除${name}?`, '提示', {
+      const { _id } = row
+      this.$confirm('是否删除该更新日志?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(async () => {
-          await this.$http.delete(`/crud/items/${_id}`)
+          await this.$http.delete(`/crud/logs/${_id}`)
           this.$message({
             type: 'success',
             message: '删除成功!'

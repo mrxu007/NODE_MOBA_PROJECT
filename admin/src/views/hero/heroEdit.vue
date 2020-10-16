@@ -150,8 +150,8 @@ export default {
       // this.model.name = res.data.name
       // this.model.title = res.data.title
       // this.model.iconURL = res.data.iconURL
-      // console.log('标记', res.data)
-      this.model = Object.assign({}, this.model, res.data)
+      // console.log('标记', res.data.data)
+      this.model = Object.assign({}, this.model, res.data.data)
       // this.$set(this.model, 'name', res.data.name)
       // this.$set(this.model, 'iconURL', res.data.iconURL)
     },
@@ -160,18 +160,18 @@ export default {
       // this.imageUrl = URL.createObjectURL(file.raw)
       // this.$set(this.model, 'iconURL', res.url)
       // console.log(res)
-      this.model.iconURL = res.url
+      this.model.iconURL = res.data.url
     },
     // 查询英雄分类
     async fetchHeroCategories() {
       const res = await this.$http.get('/crud/categories/list')
       // console.log(res)
-      this.categories = res.data
+      this.categories = res.data.data
     },
     // 查询全部装备
     async fetchAllItems() {
       const res = await this.$http.get('/crud/items/list')
-      this.items = res.data
+      this.items = res.data.data
       // console.log(res)
     }
   }
