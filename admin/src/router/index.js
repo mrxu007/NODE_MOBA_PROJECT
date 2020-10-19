@@ -18,6 +18,12 @@ const ItemList = () => import('views/item/ItemList.vue')
 // 英雄
 const heroEdit = () => import('views/hero/heroEdit.vue')
 const heroList = () => import('views/hero/heroList.vue')
+// 文章
+const articleEdit = () => import('views/article/articleEdit.vue')
+const articleList = () => import('views/article/articleList.vue')
+// 广告
+const adEdit = () => import('views/ad/adEdit.vue')
+const adList = () => import('views/ad/adList.vue')
 
 // 解决重复点击当前路由报错的问题,重写push、replace等等跳转方法
 const originalPush = VueRouter.prototype.push
@@ -109,6 +115,32 @@ const routes = [
       {
         path: '/heros/edit/:id',
         component: heroEdit,
+        props: true
+      },
+      {
+        path: '/articles/create',
+        component: articleEdit
+      },
+      {
+        path: '/articles/list',
+        component: articleList
+      },
+      {
+        path: '/articles/edit/:id',
+        component: articleEdit,
+        props: true
+      },
+      {
+        path: '/ads/create',
+        component: adEdit
+      },
+      {
+        path: '/ads/list',
+        component: adList
+      },
+      {
+        path: '/ads/edit/:id',
+        component: adEdit,
         props: true
       }
     ]

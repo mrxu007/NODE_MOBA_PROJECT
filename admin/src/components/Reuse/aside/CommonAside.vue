@@ -88,6 +88,36 @@ export default {
               label: '英雄列表'
             }
           ]
+        },
+        {
+          label: '文章管理',
+          icon: 'menu',
+          path: '/articles',
+          children: [
+            {
+              path: '/articles/create',
+              label: '新建文章'
+            },
+            {
+              path: '/articles/list',
+              label: '文章列表'
+            }
+          ]
+        },
+        {
+          label: '广告管理',
+          icon: 'menu',
+          path: '/ads',
+          children: [
+            {
+              path: '/ads/create',
+              label: '新建广告'
+            },
+            {
+              path: '/ads/list',
+              label: '广告列表'
+            }
+          ]
         }
       ]
     }
