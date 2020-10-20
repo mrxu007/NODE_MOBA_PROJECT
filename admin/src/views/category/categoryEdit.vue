@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>{{id ? '编辑' : '新建'}}分类</h1>
+    <el-divider></el-divider>
     <el-form :inline="false" label-width="80px" size="normal">
       <el-form-item label="上级分类">
         <el-select placeholder="请选择上级分类" v-model="model.parent">

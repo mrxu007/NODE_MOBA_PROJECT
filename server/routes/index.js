@@ -2,6 +2,11 @@ module.exports = app => {
   const express = require('express');
   const inflection = require('inflection');
   const multer = require('multer');
+  const bcrypt = require('bcrypt');
+  const jwt = require('jsonwebtoken');
+  const {
+    secret
+  } = require('../common/secret_code');
   const {
     resolve
   } = require('path');
@@ -24,7 +29,9 @@ module.exports = app => {
     if (req.Model.modelName === 'Category') {
       options.populate = 'parent'
     }
-    const list = await req.Model.find({}).setOptions(options);
+    const list = await req.Model.find({}).sort({
+      _id: -1
+    }).setOptions(options);
     res.send({
       "error_code": 0,
       "data": list
@@ -63,6 +70,7 @@ module.exports = app => {
   app.use('/admin/api/crud/:resource',
     async (req, res, next) => {
       const modelName = inflection.classify(req.params.resource);
+      // console.log('正在访问model:', modelName);
       const Model = require(`../models/${modelName}`);
       req.Model = Model;
       next();
@@ -81,5 +89,40 @@ module.exports = app => {
       "error_code": 0,
       data: file
     });
+  })
+  app.post('/admin/api/login', async (req, res) => {
+    const {
+      username,
+      password
+    } = req.body;
+    // 1.根据用户名找用户(切记密码已经被加密，不可通过用户+密码方式找用户)
+    const AdminUser = require('../models/user');
+    const user = await AdminUser.findOne({
+      username
+    }).select('+password');
+    console.log(user)
+    if (!user) {
+      return res.status(422).send({
+        'message': '用户名不存在'
+      })
+    }
+    // 2. 校验密码
+    const isValid = bcrypt.compareSync(password, user.password);
+    if (!isValid) {
+      return res.status(422).send({
+        'message': '用户名或密码错误'
+      })
+    }
+    // 3. 返回token  需要用到jsonwebtoken
+    const token = jwt.sign({ // 第一个参数  需要加密的数据， 第二个参数 密钥
+      id: user._id
+    }, secret);
+    res.send({
+      token
+    })
+    // console.log(secret);
+    // res.send({
+    //   "error_code": 0,
+    // })
   })
 }

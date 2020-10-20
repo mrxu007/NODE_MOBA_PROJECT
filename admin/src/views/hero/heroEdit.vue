@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>{{id ? '编辑' : '新建'}}英雄</h1>
+    <el-divider></el-divider>
     <el-form :inline="false" label-width="80px" size="normal">
       <el-tabs type="border-card" value="info">
         <el-tab-pane label="英雄基础信息" name="info">

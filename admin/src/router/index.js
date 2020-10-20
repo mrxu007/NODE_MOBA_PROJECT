@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
 import Main from 'views/Main.vue'
 
-// 路由组件的懒加载
+// 登录页面
+import Login from 'views/login/login.vue'
 // 首页
 import Home from 'views/home/Home.vue'
+// 路由组件的懒加载
 // 更新公告
 const logEdit = () => import('views/logUpdate/logEdit.vue')
 const logList = () => import('views/logUpdate/logList.vue')
@@ -24,6 +25,12 @@ const articleList = () => import('views/article/articleList.vue')
 // 广告
 const adEdit = () => import('views/ad/adEdit.vue')
 const adList = () => import('views/ad/adList.vue')
+// 用户
+const userEdit = () => import('views/user/userEdit.vue')
+const userList = () => import('views/user/userList.vue')
+// 权限
+const groupsEdit = () => import('views/Groups/GroupsEdit.vue')
+const groupsList = () => import('views/Groups/GroupsList.vue')
 
 // 解决重复点击当前路由报错的问题,重写push、replace等等跳转方法
 const originalPush = VueRouter.prototype.push
@@ -56,7 +63,11 @@ const routes = [
   //   name: 'home',
   //   component: Home
   // },
-
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
   {
     path: '/',
     component: Main,
@@ -141,6 +152,32 @@ const routes = [
       {
         path: '/ads/edit/:id',
         component: adEdit,
+        props: true
+      },
+      {
+        path: '/users/create',
+        component: userEdit
+      },
+      {
+        path: '/users/list',
+        component: userList
+      },
+      {
+        path: '/users/edit/:id',
+        component: userEdit,
+        props: true
+      },
+      {
+        path: '/groups/create',
+        component: groupsEdit
+      },
+      {
+        path: '/groups/list',
+        component: groupsList
+      },
+      {
+        path: '/groups/edit/:id',
+        component: groupsEdit,
         props: true
       }
     ]

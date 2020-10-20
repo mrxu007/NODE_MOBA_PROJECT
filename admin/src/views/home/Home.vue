@@ -30,6 +30,7 @@
 </template>
 
 <script>
+// import { countSort } from 'common/util'
 import CommonCard from 'components/Reuse/card/CommonCard.vue'
 export default {
   components: {
@@ -38,6 +39,7 @@ export default {
   data() {
     return {
       logsData: []
+      // arr5: [23, 4435, 66, 12, 4, 66, 566]
     }
   },
   mounted() {
@@ -49,12 +51,14 @@ export default {
       const res = await this.$http.get('/crud/logs/list')
 
       const arr = res.data.data.map(item => {
-        item.date = this.$dayjs(item.date).format('YYYY/MM/DD')
+        item.date = this.$dayjs(item.date).format('YYYY-MM-DD hh:mm')
         return item
       })
       this.logsData = arr
       // console.log(res.data.data)
       // console.log(this.logsData)
+      // const result = countSort(this.arr5, 4435)
+      // console.log(result)
     }
   }
 }

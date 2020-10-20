@@ -1,5 +1,13 @@
 <template>
-  <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" default-active="2" router text-color="#fff">
+  <el-menu
+    :default-active="$route.path"
+    active-text-color="#ffd04b"
+    background-color="#545c64"
+    class="el-menu-vertical-demo"
+    router
+    text-color="#fff"
+    unique-opened
+  >
     <!-- 没有子路由的菜单 -->
     <el-menu-item :index="item.path" :key="item.path" v-for="item in noChildren">
       <i :class="'el-icon-'+item.icon"></i>
@@ -116,6 +124,36 @@ export default {
             {
               path: '/ads/list',
               label: '广告列表'
+            }
+          ]
+        },
+        {
+          label: '用户管理',
+          icon: 'menu',
+          path: '/users',
+          children: [
+            {
+              path: '/users/create',
+              label: '新建管理员'
+            },
+            {
+              path: '/users/list',
+              label: '管理员列表'
+            }
+          ]
+        },
+        {
+          label: '权限组管理',
+          icon: 'menu',
+          path: '/groups',
+          children: [
+            {
+              path: '/groups/create',
+              label: '新建权限组'
+            },
+            {
+              path: '/groups/list',
+              label: '权限组列表'
             }
           ]
         }

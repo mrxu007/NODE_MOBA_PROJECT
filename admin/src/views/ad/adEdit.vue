@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>{{id ? '编辑' : '新建'}}广告位</h1>
+    <el-divider></el-divider>
     <el-form :inline="false" label-width="80px" size="normal">
       <el-form-item label="广告名称">
         <el-input v-model="model.name"></el-input>

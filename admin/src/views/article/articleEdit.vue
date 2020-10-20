@@ -1,6 +1,7 @@
 <template>
   <el-form :inline="false" label-width="80px" ref="form" size="normal">
     <h1>{{id? '编辑': '新建'}}文章</h1>
+    <el-divider></el-divider>
     <el-form-item label="文章分类">
       <el-select multiple v-model="model.categories">
         <el-option :key="item._id" :label="item.name" :value="item._id" v-for="item in categories "></el-option>

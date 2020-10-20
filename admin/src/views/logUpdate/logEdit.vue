@@ -1,6 +1,7 @@
 <template>
   <el-form :inline="false" label-width="80px" ref="form" size="normal">
     <h1>{{id? '编辑': '新建'}}更新日志</h1>
+    <el-divider></el-divider>
     <el-form-item label="发布者">
       <el-input v-model="model.author"></el-input>
     </el-form-item>

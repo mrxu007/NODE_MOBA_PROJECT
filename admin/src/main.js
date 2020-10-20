@@ -8,6 +8,10 @@ import ElementUI from 'element-ui'
 import http from 'network/http'
 // 引入moment日期格式化实例
 import dayJs from 'dayjs'
+// 引入elementUI封装单例模式通知框
+import {
+  message
+} from 'common/message'
 // 引入初始化样式css
 import 'assets/css/normalize.css'
 import 'assets/css/index.css'
@@ -19,6 +23,7 @@ Vue.use(ElementUI)
 // 挂载模块到Vue原型上
 Vue.prototype.$http = http
 Vue.prototype.$dayjs = dayJs
+Vue.prototype.$message = message
 
 new Vue({
   router,

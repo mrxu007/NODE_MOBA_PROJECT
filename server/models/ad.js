@@ -13,8 +13,8 @@ const schema = new mongoose.Schema({
     }
   }],
   date: {
-    type: String,
-    default: new Date()
+    type: Date,
+    default: Date.now
   }
 })
 
