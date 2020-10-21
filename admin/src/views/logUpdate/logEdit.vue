@@ -3,7 +3,7 @@
     <h1>{{id? '编辑': '新建'}}更新日志</h1>
     <el-divider></el-divider>
     <el-form-item label="发布者">
-      <el-input v-model="model.author"></el-input>
+      <el-input disabled v-model="model.author"></el-input>
     </el-form-item>
     <el-form-item label="详细日志" style="width:1000px">
       <vue-editor @image-added="handleImageAdded" useCustomImageHandler v-model="model.content"></vue-editor>
@@ -26,10 +26,13 @@ export default {
   },
   data() {
     return {
-      model: {}
+      model: {
+        author: ''
+      }
     }
   },
   mounted() {
+    this.getAuthorization()
     this.id && this.findById()
   },
   methods: {
@@ -76,6 +79,11 @@ export default {
       // .catch(err => {
       //   console.log(err)
       // })
+    },
+    // 获取当前用户名
+    getAuthorization() {
+      const res = JSON.parse(localStorage.getItem('userinfo'))
+      this.model.author = res.Rights_Groups.name
     }
   }
 }

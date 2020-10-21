@@ -11,5 +11,9 @@ const schema = new mongoose.Schema({
     type: String
   }
 })
-
-module.exports = mongoose.model('Group', schema);
+if (mongoose.models.Group) {
+  Group = mongoose.model('Group');
+} else {
+  Group = mongoose.model('Group', schema);
+}
+module.exports = Group;

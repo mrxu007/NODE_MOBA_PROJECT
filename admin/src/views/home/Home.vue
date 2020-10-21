@@ -24,7 +24,9 @@
           <span>用户信息</span>
         </div>
       </div>
-      <div slot="content">11111111</div>
+      <div slot="content">
+        <user-info></user-info>
+      </div>
     </common-card>
   </div>
 </template>
@@ -32,9 +34,11 @@
 <script>
 // import { countSort } from 'common/util'
 import CommonCard from 'components/Reuse/card/CommonCard.vue'
+import UserInfo from 'components/Reuse/userinfo/UserInfo.vue'
 export default {
   components: {
-    CommonCard
+    CommonCard,
+    UserInfo
   },
   data() {
     return {
@@ -43,6 +47,7 @@ export default {
     }
   },
   mounted() {
+    this.fetUserInfo()
     // http://localhost:3000/admin/api/crud/logs/list
     this.fetchLogs()
   },
@@ -59,6 +64,11 @@ export default {
       // console.log(this.logsData)
       // const result = countSort(this.arr5, 4435)
       // console.log(result)
+    },
+    // 获取用户信息
+    fetUserInfo() {
+      const userinfo = JSON.parse(localStorage.getItem('userinfo'))
+      console.log(userinfo)
     }
   }
 }

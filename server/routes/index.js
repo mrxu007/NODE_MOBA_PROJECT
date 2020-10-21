@@ -1,20 +1,24 @@
 module.exports = app => {
   const express = require('express');
-  const inflection = require('inflection');
   const multer = require('multer');
   const bcrypt = require('bcrypt');
+  const assert = require('http-assert');
   const jwt = require('jsonwebtoken');
-  const {
-    secret
-  } = require('../common/secret_code');
+  const resourceMiddleWare = require('../common/middleWare/resourceMiddleWare');
+  const authMiddleWare = require('../common/middleWare/authMiddleWare');
   const {
     resolve
   } = require('path');
+  const AdminUser = require('../models/user')
+  const {
+    secret
+  } = require('../common/secret_code');
+  // Router是express的子路由管理 
   const router = express.Router({
     mergeParams: true
-  }) // Router是express的子路由管理
+  })
 
-  //创建
+  //创建API
   router.post('/', async (req, res) => {
     // console.log(req.body);
     await req.Model.create(req.body)
@@ -23,7 +27,7 @@ module.exports = app => {
       "success": '数据创建成功'
     });
   })
-  // 查询列表
+  // 查询API
   router.get('/list', async (req, res) => {
     let options = {}
     if (req.Model.modelName === 'Category') {
@@ -37,7 +41,8 @@ module.exports = app => {
       "data": list
     });
   })
-  // 查询单条数据
+
+  // 查询单挑API
   router.get('/:id', async (req, res) => {
     const model = await req.Model.findById(req.params.id);
     res.send({
@@ -45,7 +50,8 @@ module.exports = app => {
       data: model
     });
   })
-  // 更新
+
+  // 更新API
   router.put('/:id', async (req, res) => {
     let id = req.params.id;
     let data = req.body;
@@ -55,7 +61,8 @@ module.exports = app => {
       "success": '数据更新成功'
     });
   })
-  // 删除
+
+  // 删除API
   router.delete('/:id', async (req, res) => {
     let id = req.params.id;
     await req.Model.findByIdAndDelete(id);
@@ -65,24 +72,17 @@ module.exports = app => {
     })
   })
 
-
-  // CRUD接口
-  app.use('/admin/api/crud/:resource',
-    async (req, res, next) => {
-      const modelName = inflection.classify(req.params.resource);
-      // console.log('正在访问model:', modelName);
-      const Model = require(`../models/${modelName}`);
-      req.Model = Model;
-      next();
-    }, router) // 将router子路由挂载到app上面的高级路由上
+  // CRUD API
+  app.use('/admin/api/crud/:resource', authMiddleWare(), resourceMiddleWare(), router) // 将router子路由挂载到app上面的高级路由上
 
 
-  // 上传文件接口
+  // 查询上传文件路径
   const upload = multer({
     dest: resolve(__dirname, '../uploads')
   })
 
-  app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
+  // 上传文件API
+  app.post('/admin/api/upload', authMiddleWare(), upload.single('file'), async (req, res) => {
     const file = req.file;
     file.url = `http://localhost:3000/uploads/${file.filename}`
     res.send({
@@ -90,39 +90,55 @@ module.exports = app => {
       data: file
     });
   })
-  app.post('/admin/api/login', async (req, res) => {
-    const {
-      username,
-      password
-    } = req.body;
-    // 1.根据用户名找用户(切记密码已经被加密，不可通过用户+密码方式找用户)
-    const AdminUser = require('../models/user');
-    const user = await AdminUser.findOne({
-      username
-    }).select('+password');
-    console.log(user)
-    if (!user) {
-      return res.status(422).send({
-        'message': '用户名不存在'
+
+  // 登录API
+  app.post('/admin/api/login', async (req, res, next) => {
+    try {
+      const {
+        username,
+        password
+      } = req.body;
+      // 1.根据用户名找用户(切记密码已经被加密，不可通过用户+密码方式找用户)
+      // console.log(username);
+      const user = await AdminUser.findOne({
+        username
+      }).select('+password').populate('Rights_Groups');
+      assert(user, 422, '用户名不存在') // 会抛出一个错误，需要进行捕获
+      // 2. 校验密码
+      const isValid = bcrypt.compareSync(password, user.password);
+      assert(isValid, 422, '用户或密码错误')
+      // 3. 返回token  需要用到jsonwebtoken
+      const user_login_token = jwt.sign({ // 第一个参数  需要加密的数据， 第二个参数 密钥
+        id: user._id,
+        name: user.username,
+        gourp_id: user.Rights_Groups.gourp_id
+      }, secret);
+      // user.password = '密码已加密';
+      const userinfo = {
+        Rights_Groups: user.Rights_Groups,
+        username: user.username,
+        password: '已加密',
+        registered: user.registered
+      }
+      res.send({
+        user_login_token,
+        userinfo
       })
+    } catch (error) {
+      next(error);
     }
-    // 2. 校验密码
-    const isValid = bcrypt.compareSync(password, user.password);
-    if (!isValid) {
-      return res.status(422).send({
-        'message': '用户名或密码错误'
-      })
+  })
+  // 汇总捕获异常API
+  app.use(async (err, req, res, next) => {
+    if (err.message == 'invalid token') {
+      err.statusCode = 401
+      err.message = '请先登录再操作'
+    } else if (err.message == 'jwt malformed') {
+      err.statusCode = 401
+      err.message = '请先登录再操作'
     }
-    // 3. 返回token  需要用到jsonwebtoken
-    const token = jwt.sign({ // 第一个参数  需要加密的数据， 第二个参数 密钥
-      id: user._id
-    }, secret);
-    res.send({
-      token
+    return res.status(err.statusCode || 500).send({
+      'message': err.message
     })
-    // console.log(secret);
-    // res.send({
-    //   "error_code": 0,
-    // })
   })
 }

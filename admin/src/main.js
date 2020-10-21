@@ -24,7 +24,16 @@ Vue.use(ElementUI)
 Vue.prototype.$http = http
 Vue.prototype.$dayjs = dayJs
 Vue.prototype.$message = message
-
+// vue全局混入
+Vue.mixin({
+  methods: {
+    getToken() {
+      return {
+        Authorization: `Bearer ${localStorage.getItem('user_login_token')}`
+      }
+    }
+  }
+})
 new Vue({
   router,
   store,

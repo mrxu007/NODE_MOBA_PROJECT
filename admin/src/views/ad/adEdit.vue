@@ -16,6 +16,7 @@
           <el-form-item label="广告图片">
             <el-upload
               :action="$http.defaults.baseURL+'/upload'"
+              :headers="getToken()"
               :on-success="res => $set(item, 'image', res.data.url)"
               :show-file-list="false"
               class="avatar-uploader"

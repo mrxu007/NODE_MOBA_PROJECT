@@ -21,5 +21,4 @@ arr.forEach(type => {
     return resetMessage(options)
   }
 })
-
 export const message = resetMessage
