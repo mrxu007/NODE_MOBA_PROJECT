@@ -1,34 +1,43 @@
 <template>
-  <div class="home">
-    <common-card>
-      <div slot="test">
-        <div class="clearfix" slot="header">
-          <span>更新日志</span>
-        </div>
-      </div>
-      <div class="card_content" slot="content">
-        <el-timeline>
-          <el-timeline-item :key="item._id" :timestamp="item.date" placement="top" v-for="item in logsData">
-            <el-card>
-              <!-- <h4>{{item.content}}</h4> -->
-              <div v-html="item.content"></div>
-              <p>{{item.author}} 提交于 {{item.date}}</p>
-            </el-card>
-          </el-timeline-item>
-        </el-timeline>
-      </div>
-    </common-card>
-    <common-card>
-      <div slot="test">
-        <div class="clearfix" slot="header">
-          <span>用户信息</span>
-        </div>
-      </div>
-      <div slot="content">
-        <user-info></user-info>
-      </div>
-    </common-card>
-  </div>
+  <el-row>
+    <div>
+      <el-col :lg="12" :md="24" :sm="24" :span="8" :xs="24" class="clearfix">
+        <common-card>
+          <div slot="test">
+            <div class="user_header" slot="header">
+              <span>用户信息</span>
+              <el-button @click="loginOut" type="primary">退出登录</el-button>
+            </div>
+          </div>
+          <div slot="content">
+            <user-info></user-info>
+          </div>
+        </common-card>
+      </el-col>
+    </div>
+    <div>
+      <el-col :lg="12" :md="24" :sm="24" :span="8" :xs="24">
+        <common-card>
+          <div slot="test">
+            <div class="clearfix" slot="header">
+              <span>更新日志</span>
+            </div>
+          </div>
+          <div class="card_content" slot="content">
+            <el-timeline>
+              <el-timeline-item :key="item._id" :timestamp="item.date" placement="top" v-for="item in logsData">
+                <el-card>
+                  <!-- <h4>{{item.content}}</h4> -->
+                  <div v-html="item.content"></div>
+                  <p>{{item.author}} 提交于 {{item.date}}</p>
+                </el-card>
+              </el-timeline-item>
+            </el-timeline>
+          </div>
+        </common-card>
+      </el-col>
+    </div>
+  </el-row>
 </template>
 
 <script>
@@ -47,7 +56,7 @@ export default {
     }
   },
   mounted() {
-    this.fetUserInfo()
+    // this.fetUserInfo()
     // http://localhost:3000/admin/api/crud/logs/list
     this.fetchLogs()
   },
@@ -65,17 +74,23 @@ export default {
       // const result = countSort(this.arr5, 4435)
       // console.log(result)
     },
-    // 获取用户信息
-    fetUserInfo() {
-      const userinfo = JSON.parse(localStorage.getItem('userinfo'))
-      console.log(userinfo)
+    // 用户退出
+    loginOut() {
+      localStorage.removeItem('user_login_token')
+      localStorage.removeItem('userinfo')
+      this.$router.push('/login')
     }
+    // 获取用户信息
+    // fetUserInfo() {
+    //   const userinfo = JSON.parse(localStorage.getItem('userinfo'))
+    //   // console.log(userinfo)
+    // }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.home {
+.user_header {
   display: flex;
   justify-content: space-between;
 }

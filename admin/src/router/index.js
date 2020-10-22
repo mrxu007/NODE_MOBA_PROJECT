@@ -196,13 +196,22 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // console.log(to)
   const loginToken = localStorage.getItem('user_login_token')
+  // console.log(to.path)
   if (!to.meta.isPublic && !loginToken) {
     Vue.prototype.$message({
       type: 'error',
       message: '请先登录'
     })
     next('/login')
+  } else if (loginToken && to.path === '/login') {
+    Vue.prototype.$message({
+      type: 'error',
+      message: '无需再次登录'
+    })
+    next('/')
+  } else {
+    next()
   }
-  next()
+  // if(to.path)
 })
 export default router

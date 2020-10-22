@@ -19,7 +19,9 @@ module.exports = options => async (req, res, next) => {
     assert(id, 401, '无效的jwt token(请先登录)')
     const user = AdminUser.findById(id).populate('Rights_Groups');
     assert(user, 401, '请先登录再操作');
-
+    // console.log(id, name, gourp_id);
+    const userGroupId = gourp_id;
+    req.userGroupId = userGroupId
     await next();
   } catch (error) {
     // console.log(error)

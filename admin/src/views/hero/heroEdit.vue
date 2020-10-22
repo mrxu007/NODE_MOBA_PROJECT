@@ -187,6 +187,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-input {
+  width: 300px;
+}
 .el-rate {
   margin-top: 0.8rem;
 }

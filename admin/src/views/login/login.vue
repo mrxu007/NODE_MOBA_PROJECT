@@ -30,7 +30,7 @@ export default {
     async login() {
       // console.log(this.model)
       const res = await this.$http.post('login', this.model)
-      console.log('login', res)
+      // console.log('login', res)
       localStorage.setItem('user_login_token', res.data.user_login_token)
       localStorage.setItem('userinfo', JSON.stringify(res.data.userinfo))
       this.$router.push('/')

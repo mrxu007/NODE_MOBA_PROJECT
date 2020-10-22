@@ -20,7 +20,7 @@ http.interceptors.request.use((config) => {
 })
 // 捕获服务端响应错误
 http.interceptors.response.use(res => {
-  console.log(res)
+  // console.log(res)
   return res
 }, err => {
   Vue.prototype.$message({
@@ -30,7 +30,7 @@ http.interceptors.response.use(res => {
   if (err.response.status === 401) {
     router.push('/login')
   }
-  console.log(err.response)
+  // console.log(err.response)
   return Promise.reject(err)
 })
 

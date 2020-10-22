@@ -6,6 +6,7 @@ module.exports = app => {
   const jwt = require('jsonwebtoken');
   const resourceMiddleWare = require('../common/middleWare/resourceMiddleWare');
   const authMiddleWare = require('../common/middleWare/authMiddleWare');
+  const groupAuth = require('../common/middleWare/groupAuth');
   const {
     resolve
   } = require('path');
@@ -18,8 +19,9 @@ module.exports = app => {
     mergeParams: true
   })
 
+
   //创建API
-  router.post('/', async (req, res) => {
+  router.post('/', groupAuth(), async (req, res) => {
     // console.log(req.body);
     await req.Model.create(req.body)
     res.send({
@@ -27,8 +29,10 @@ module.exports = app => {
       "success": '数据创建成功'
     });
   })
+
   // 查询API
   router.get('/list', async (req, res) => {
+
     let options = {}
     if (req.Model.modelName === 'Category') {
       options.populate = 'parent'
@@ -52,7 +56,7 @@ module.exports = app => {
   })
 
   // 更新API
-  router.put('/:id', async (req, res) => {
+  router.put('/:id', groupAuth(), async (req, res) => {
     let id = req.params.id;
     let data = req.body;
     const model = await req.Model.findByIdAndUpdate(id, data);
@@ -63,7 +67,7 @@ module.exports = app => {
   })
 
   // 删除API
-  router.delete('/:id', async (req, res) => {
+  router.delete('/:id', groupAuth(), async (req, res) => {
     let id = req.params.id;
     await req.Model.findByIdAndDelete(id);
     res.send({
@@ -120,6 +124,7 @@ module.exports = app => {
         password: '已加密',
         registered: user.registered
       }
+      // req.userinfo = userInfo;
       res.send({
         user_login_token,
         userinfo

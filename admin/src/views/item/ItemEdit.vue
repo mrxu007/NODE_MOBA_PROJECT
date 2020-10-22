@@ -67,4 +67,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-input {
+  width: 300px;
+}
 </style>
