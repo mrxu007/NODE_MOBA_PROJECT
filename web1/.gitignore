@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+/unpackage/dist/dev/mp-weixin
 
 
 # local env files
