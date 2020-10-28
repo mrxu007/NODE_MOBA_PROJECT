@@ -13,6 +13,7 @@
     </div>
     <el-input style="width: 400px" v-model="content"></el-input>
     <el-button @click="send" type="primary">发送信息</el-button>
+    <i class="sprite sprite-news"></i>
   </div>
 </template>
 <script>
@@ -85,5 +86,15 @@ export default {
   background: pink;
   height: 500px;
   width: 400px;
+}
+.sprite {
+  background: url('../assets/index.png') no-repeat 0 0;
+  background-size: 375px 455px;
+  display: inline-block;
+  &.sprite-news {
+    width: 50px;
+    height: 50px;
+    background-position: 63.546% 15.517%;
+  }
 }
 </style>

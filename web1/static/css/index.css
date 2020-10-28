@@ -1,0 +1,10 @@
+* {
+  box-sizing: border-box;
+  /* background-color: red; */
+}
+
+/* 让页面中所有的滚动条消失 */
+/* ::-webkit-scrollbar {
+  width: 0px;
+}
+ */

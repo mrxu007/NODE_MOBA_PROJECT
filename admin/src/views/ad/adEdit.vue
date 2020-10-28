@@ -63,7 +63,7 @@ export default {
     // 查询单条数据
     async findById() {
       const res = await this.$http.get(`/crud/ads/${this.id}`)
-      console.log(res.data.data)
+      // console.log(res.data.data)
       this.model = Object.assign({}, this.model, res.data.data)
     }
   }

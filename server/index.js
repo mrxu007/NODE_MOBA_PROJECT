@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 // 开放http://loaclhost:300/uploads下的文件
+app.use('/admin', express.static(__dirname + '/admin'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 // 导入路由
 require('./routes/index')(app);

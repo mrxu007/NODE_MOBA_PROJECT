@@ -89,7 +89,7 @@ export default {
     async fetchCategories() {
       const res = await this.$http.get('/crud/categories/list')
       this.categories = res.data.data
-      console.log(res.data.data)
+      // console.log(res.data.data)
     }
   }
 }

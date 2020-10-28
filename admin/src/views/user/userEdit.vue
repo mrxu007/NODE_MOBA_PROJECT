@@ -64,7 +64,7 @@ export default {
     // 查询权限列表
     async fetchGroups() {
       const res = await this.$http.get('/crud/groups/list')
-      console.log(res.data.data)
+      // console.log(res.data.data)
       this.Rights_Groups = Object.assign({}, this.model, res.data.data)
     }
   }
